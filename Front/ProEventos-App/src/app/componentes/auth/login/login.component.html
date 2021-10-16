@@ -1,0 +1,30 @@
+<div class="container-login">
+  <form class="form-signin needs-validation text-center" #loginForm="ngForm" (ngSubmit)="login()">
+    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72"
+      height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" [(ngModel)]="model.userName" name="userName" class="form-control"
+      placeholder="Email address" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" [(ngModel)]="model.password" name="password" class="form-control"
+      placeholder="Password" required>
+    <div class="checkbox mb-3 mt-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Lembra-se
+      </label>
+    </div>
+    <button [disabled]="!loginForm.valid || loading" class="btn btn-lg btn-primary btn-entrar btn-block" type="submit">
+      Entrar
+      <span class="spinner-border spinner-border-sm" *ngIf="loading"></span>
+      <i *ngIf="!loading" class="fas fa-sign-in-alt"></i>
+    </button>
+    <div class="nao-tem-login">
+      <p class="mt-2 mb-3 text-muted border-bottom-dashed" (click)="router.navigate(['/register'])">
+        Não tem login? Cadastre-se agora!
+      </p>
+    </div>
+    <!-- <button class="btn btn-lg btn-primary btn-block" type="submit">Quero me Registrar</button> -->
+    <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+  </form>
+</div>

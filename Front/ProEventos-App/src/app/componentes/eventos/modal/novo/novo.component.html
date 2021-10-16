@@ -1,0 +1,91 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Novo Evento</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef?.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <form class="needs-validation" [formGroup]="registerForm">
+      <div class="row g-3">
+        <div class="col-12">
+          <label for="firstName" class="form-label">Tema</label>
+          <input type="text" class="form-control is-invalid" [class.is-invalid]="_f.tema.errors && _f.tema.touched" placeholder=""
+            value="" formControlName="tema">
+          <div class="invalid-feedback">
+            Um Tema valido é requirido.
+          </div>
+        </div>
+
+        <div class="col-sm-8">
+          <label for="local" class="form-label">Local</label>
+          <input type="text" class="form-control" [class.is-invalid]="_f.local.errors && _f.local.touched"
+            placeholder="" value="" formControlName="local">
+          <div class="invalid-feedback">
+            Um local valido é requerido.
+          </div>
+        </div>
+
+        <div class="col-4">
+          <label for="username" class="form-label">Data e Hora</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text" (click)="dp.toggle()">
+              <i class="fas fa-calendar-alt"></i>
+            </span>
+            <input type="text" class="form-control" [class.is-invalid]="_f.dataEvento.errors && _f.dataEvento.touched"
+              formControlName="dataEvento" #dp="bsDatepicker" [bsConfig]="bsConfig" bsDatepicker>
+            <div class="invalid-feedback">
+              Uma Data e Hora valido é requerido.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="Qtd Pessoas" class="form-label">Qtd Pessoas </label>
+          <input type="Qtd Pessoas" class="form-control"
+            [class.is-invalid]="_f.qtdPessoas.errors && _f.qtdPessoas.touched" formControlName="qtdPessoas">
+          <div class="invalid-feedback">
+            <!-- <p *ngIf="expression"></p> -->
+            <!-- Valor máximo de {{ _f.qtdPessoas.getError('max').max }} -->
+            Um valor para Qtd Pessoas valido é requerido.
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <label for="Imagem" class="form-label">Imagem</label>
+          <input type="file" #file class="form-control"
+            (change)="onFileChange($event)"
+            [class.is-invalid]="_f.imagemUrl.errors && _f.imagemUrl.touched"
+            placeholder="" formControlName="imagemUrl"
+          >
+          <div class="invalid-feedback">
+            Uma imagem valida é requerido.
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <label for="address2" class="form-label">Email </label>
+          <input type="text" class="form-control" [class.is-invalid]="_f.email.errors && _f.email.touched"
+            placeholder="" formControlName="email">
+          <div class="invalid-feedback">
+            Um Email valido é requerido
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="address2" class="form-label">Telefone </label>
+          <input type="text" class="form-control" [mask]="'(00) 00000-0000'"
+          [class.is-invalid]="_f.telefone.errors && _f.telefone.touched"
+            placeholder="" formControlName="telefone">
+          <div class="invalid-feedback">
+            Um telefone valido é requerido
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" [disabled]="registerForm.invalid" (click)="onSubmit()">
+    Salvar Alterações
+  </button>
+</div>

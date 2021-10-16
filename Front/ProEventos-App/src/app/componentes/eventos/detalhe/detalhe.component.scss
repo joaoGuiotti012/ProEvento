@@ -1,0 +1,38 @@
+i {
+  font-size: 25px;
+}
+
+.iconesSociais a {
+  color: rgb(94, 94, 94);
+}
+
+.capitalize {
+  text-transform: capitalize;
+  border-bottom: 1px solid silver;
+}
+
+.tab-pane {
+  padding: 20px 10px 20px 10px;
+  border-top: 0px;
+  border-right: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
+}
+
+.ml-auto {
+  right: 0;
+}
+.mr-2 {
+  margin-right: 0.5rem;
+}
+.mr-3 {
+  margin-right: 0.5 * 1.2rem;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.img-destaque {
+  cursor: pointer;
+}

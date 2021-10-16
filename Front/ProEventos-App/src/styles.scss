@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+/* Importing Datepicker SCSS file. */
+@import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+@import "../node_modules/bootswatch/dist/lumen/bootstrap.min.css";
+
+/* Importing Fontawesome SCSS file. */
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+
+
+.spinner-container {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    align-items: center;
+    top: 0;
+    background-color: #0808088e;
+    z-index: 100000;
+
+    .spinner-border {
+        font-size: 40px;
+        height: 100px;
+        width: 100px;
+    }
+}

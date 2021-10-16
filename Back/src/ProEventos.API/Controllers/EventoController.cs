@@ -2,70 +2,96 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ProEventos.API.Models;
+using ProEventos.Application;
+using ProEventos.Application.Contratos;
+using ProEventos.Domain;
+using ProEventos.Persistence;
 
 namespace ProEventos.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class EventoController : ControllerBase
     {
-        public EventoController()
+        private readonly IEventoService _service;
+        public EventoController(IEventoService service)
         {
-
+            this._service = service;
         }
 
-        public IEnumerable<Evento> _evento = new Evento[] {
-            new Evento {
-                EventoId = 1,
-                Tema = "Angualr + dotner core 5",
-                Local = "Assis - SP",
-                Lote = "1",
-                QtdPessoas = 250,
-                DataEvento = DateTime.Now.AddDays(2).ToString(),
-                ImagemURL = "foto.png"
-            },
-            new Evento {
-                EventoId = 2,
-                Tema = "Angualr + dotner core 5",
-                Local = "Assis - SP",
-                Lote = "2",
-                QtdPessoas = 250,
-                DataEvento = DateTime.Now.AddDays(2).ToString(),
-                ImagemURL = "foto.png"
-            }
-        };
-
         [HttpGet]
-        public IEnumerable<Evento> Get()
+        public async Task<IActionResult> Get()
         {
-            return _evento;
+            try
+            {
+                var eventos = await _service.GetAllEventosAsync(true);
+                return Ok(eventos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<Evento> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return _evento.Where(x => x.EventoId == id);
-        }
-
-        [HttpPost]
-        public string Post()
-        {
-            return "Exemplo Post";
+            try
+            {
+                var evento = await _service.GetAllEventosByIdAsync(id, true);
+                return evento != null ? Ok(evento) : NotFound("");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
+            }
         }
 
         [HttpPut("{id}")]
-        public string Put(int id)
+        public async Task<IActionResult> Put(int id, Evento model)
         {
-            return $"Exemplo Put com id = {id}";
+            try
+            {
+                var evento = await _service.Update(id, model);
+                return evento == null ? BadRequest("Erro ao tentar alterar evento!") : Ok(evento);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
+            }
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Post(Evento model)
+        {
+            try
+            {
+                var evento = await _service.Add(model);
+                return evento == null ? BadRequest("Erro ao tentar adicionar evento!") : Ok(evento);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
+            }
         }
 
-        [HttpDelete]
-        public string Delete()
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            return "Exemplo Delete";
+            try
+            {
+                return await _service.Delete(id)
+                    ? Ok()
+                    : BadRequest("Evento não deletado");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
+            }
         }
     }
 }

@@ -6,11 +6,18 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System.Text.Json;
+using ProEventos.Persistence;
+using ProEventos.Persistence.Contexto;
+using ProEventos.Application.Contratos;
+using ProEventos.Application;
+using ProEventos.Persistence.Contratos;
 
 namespace ProEventos.API
 {
@@ -26,8 +33,30 @@ namespace ProEventos.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string mysqlConnection = Configuration.GetConnectionString("Default");
 
-            services.AddControllers();
+            services.AddDbContext<ProEventosContext>(
+                context => context.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection))
+            );
+
+            services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
+                   Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+
+            services.AddScoped<IEventoService, EventoService>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IEventosPersist, EventosPersist>();
+            services.AddScoped<IPalestrantePersist, PalestrantePersist>();
+
+
+            services.AddMvc()
+                .AddJsonOptions(
+                    op => op.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                );
+
+            services.AddCors();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });
@@ -49,6 +78,10 @@ namespace ProEventos.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(x => x.AllowAnyHeader().
+                               AllowAnyMethod().
+                               AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {

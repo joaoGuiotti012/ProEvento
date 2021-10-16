@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Excluir Evento</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef?.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  {{ body }}
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger" (click)="bsModalRef?.hide()">
+    Cancelar
+  </button>
+  <button class="btn btn-primary" (click)="onSubmit()">
+    Confirmar
+  </button>
+</div>

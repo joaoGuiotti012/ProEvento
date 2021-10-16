@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="d-flex mt-4">
+        <div class="form-inline col-sm-6 mr-auto">
+            <div class="form-group mb-2">
+                <input type="text" class="form-control mr-2" placeholder="Buscar..." [(ngModel)]="filtroLista">
+            </div>
+        </div>
+        <button class="btn btn-outline-primary" (click)="openModalNovo()">
+            <i class="fa fa-plus-circle"></i>
+            Novo Evento
+        </button>
+    </div>
+
+    <h3> Filtro: {{ filtroLista }} </h3>
+    <table class="mt-2 table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="alternarImagem()">
+                        <i class="fas {{ mostrarImagem ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+                    </button>
+                </th>
+                <th>#</th>
+                <th>Tema</th>
+                <th>Local</th>
+                <th>Data e Hora</th>
+                <th>Qtd Pessoas</th>
+                <th>Lote</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="eventos && eventos.length">
+            <tr *ngFor="let ev of eventosFiltrados; trackBy: trackById">
+                <td>
+                    <img *ngIf="mostrarImagem" class="image-box box-shadow"
+                        src="http://localhost:5000/Resources/Img/{{ ev.imagemURL }}" [style.height.px]="imagemLargura" [style.width.px]="imagemAltura"
+                        [style.margin.px]="imagemMargem">
+                </td>
+                <td> {{ ev.id }} </td>
+                <td> {{ ev.tema }} </td>
+                <td> {{ ev.local }} </td>
+                <td> {{ ev.dataEvento }} </td>
+                <td> {{ ev.qtdPessoas }} </td>
+                <td>
+                    <div *ngIf="!ev.lotes?.length">
+                        --
+                    </div>
+                    <div *ngIf="ev.lotes?.length">
+                        {{ ev.lotes[0].nome | uppercase }}
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-danger" (click)="openModalEditar(ev)" tooltip="Editar">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-success" (click)="openModalExcluir(ev)" tooltip="Excluir">
+                            <i class="fa fa-eraser"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning" [routerLink]="['/evento',  ev.id , 'detalhado']"
+                            tooltip="Edição Detalhada">
+                            <i class="fa fa-pencil-alt"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <ng-container *ngIf="totalRegistros > 0">
+                <span class="detalhes-paginacao">
+                    Mostrando {{ itensPorPagina }} de um total de {{ totalRegistros }} registros
+                </span>
+                <td colspan="8" *ngIf="totalRegistros > itensPorPagina">
+                    <pagination (pageChanged)="handlePagesChanges($event)" [itemsPerPage]="itensPorPagina"
+                        [boundaryLinks]="true" [totalItems]="eventos?.length || 0" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+                    </pagination>
+                </td>
+            </ng-container>
+            <td *ngIf="!eventos?.length" class="text-center" colspan="8">
+                <h5> Nenhum evento encontrado!! </h5>
+            </td>
+        </tfoot>
+
+    </table>
+</div>
