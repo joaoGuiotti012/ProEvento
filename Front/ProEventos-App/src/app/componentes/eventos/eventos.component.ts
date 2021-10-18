@@ -156,8 +156,8 @@ export class EventosComponent implements OnInit {
           if (res) {
             await this.service.delete(evento.id)
               .subscribe((res: any) => {
-                this.toast.success(res);
-              });
+                this.toast.success('Evento foi deletado com sucesso!');
+              }).add(() => this.carregdaDados());
           }
         }
       );
@@ -186,7 +186,6 @@ export class EventosComponent implements OnInit {
     this.totalRegistros = _eventos.length;
     return _eventos.filter((x, i) => (i + 1) > paginaDe && (i + 1) <= paginaAte);
   }
-
 
   trackById(index: number, item: any) {
     return item.id;

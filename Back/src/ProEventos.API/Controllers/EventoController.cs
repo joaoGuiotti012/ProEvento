@@ -93,5 +93,17 @@ namespace ProEventos.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
             }
         }
+        [HttpGet("tema/{tema}")]
+        public async Task<IActionResult> GetByTema(string tema)
+        {
+            try
+            {
+                return Ok(await _service.GetAllEventosByTemaAsync(tema, false));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
+            }
+        }
     }
 }

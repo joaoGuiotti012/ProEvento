@@ -7,7 +7,7 @@ export class Evento {
      *
      */
     constructor(data?: Partial<Evento>) {
-        // Object.assign(this, data);
+        Object.assign(this, data);
     }
     
     id!: number;

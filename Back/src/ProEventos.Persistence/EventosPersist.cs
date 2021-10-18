@@ -14,7 +14,7 @@ namespace ProEventos.Persistence
         {
             this._context = _context;
 
-            // Não segura o processo 
+            // Não segura o processo (AsNoTracking)
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
         }
@@ -70,7 +70,7 @@ namespace ProEventos.Persistence
                     .ThenInclude(e => e.Palestrante);
             }
 
-            query = query.AsNoTracking()
+            query = query
                 .OrderBy(e => e.Id)
                 .Where(e => e.Tema.ToLower().Contains(tema.ToLower()));
 

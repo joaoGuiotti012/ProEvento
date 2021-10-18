@@ -17,7 +17,6 @@ import { InfraModule } from '../_infra/infra.module';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule } from "ngx-currency";
-import { ToastrModule } from 'ngx-toastr';
 
 const routes: Routes = [
   {

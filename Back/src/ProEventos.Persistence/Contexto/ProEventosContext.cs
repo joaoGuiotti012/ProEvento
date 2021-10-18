@@ -8,7 +8,7 @@ namespace ProEventos.Persistence.Contexto
     {
         public ProEventosContext(DbContextOptions<ProEventosContext> options) : base(options)
         {
-            
+
         }
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Lote> Lotes { get; set; }
@@ -20,18 +20,27 @@ namespace ProEventos.Persistence.Contexto
         {
             modelBuilder.Entity<PalestranteEvento>()
                 .HasKey(PE => new { PE.EventoId, PE.PalestranteId });
-           
+
+            // Configurando delete on cascade
+            modelBuilder.Entity<Evento>()
+                .HasMany(e => e.RedesSociais)
+                .WithOne(rs => rs.Evento)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Palestrante>()
+                .HasMany(e => e.RedesSociais)
+                .WithOne(e => e.Palestrante)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             // modelBuilder.Entity<Evento>()
             //     .HasData(
             //         new Evento
             //         {
-            //             Id = 1,
             //             Tema = "Angualr + dotner core 5",
             //             Local = "Assis - SP",
-            //             Lote = new Lote[] {
+            //             Lotes = new Lote[] {
             //                 new Lote {
-            //                     Id = 1,
             //                     Nome = "Angular 12 + ASP NET CORE EF 5 [2021]",
             //                     Preco = 22,
             //                     Qtd = 122,
@@ -42,14 +51,19 @@ namespace ProEventos.Persistence.Contexto
             //             },
             //             QtdPessoas = 250,
             //             DataEvento = DateTime.Now.AddDays(2),
-            //             ImagemURL = "angular.png"
+            //             ImagemURL = "angular.png",
+            //             RedesSociais = new RedeSocial[] {
+            //                 new RedeSocial {
+            //                     Nome = "fab fa-youtube",
+            //                     URL = "http://fb.com"
+            //                 }
+            //             }
             //         },
             //         new Evento
             //         {
-            //             Id = 2,
-            //             Tema = "Angualr + dotner core 5",
-            //             Local = "Assis - SP",
-            //             Lote = new Lote[] {
+            //             Tema = "react Native",
+            //             Local = "Lutecia - SP",
+            //             Lotes = new Lote[] {
             //                 new Lote {
             //                     Id = 2,
             //                     Nome = "React Native [2021]",
@@ -61,7 +75,13 @@ namespace ProEventos.Persistence.Contexto
             //             },
             //             QtdPessoas = 250,
             //             DataEvento = DateTime.Now.AddDays(2),
-            //             ImagemURL = "react.png"
+            //             ImagemURL = "react.png",
+            //             RedesSociais = new RedeSocial[] {
+            //                 new RedeSocial {
+            //                     Nome = "fab fa-youtube",
+            //                     URL = "http://fb.com"
+            //                 }
+            //             }
             //         }
             //     );
         }
