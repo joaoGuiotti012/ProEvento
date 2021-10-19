@@ -1,0 +1,128 @@
+<div class="container">
+  <app-titulo [title]="'Perfil'" [subTitle]="''" [iconClass]="'far fa-user-circle'" [showButton]="false">
+  </app-titulo>
+
+  <div class="card rounded shadow-sm">
+    <div class="card-body mt-2">
+      <form>
+        <div class="row g-3">
+          <div class="col-lg-3 pt-1">
+            <div class="card mb-3">
+              <div class="card-header"></div>
+              <div class="d-flex align-self-center pt-3">
+                <a>
+                  <img src="assets/img/registerImage.png" alt="" width="140" height="140"
+                    class="rounded-circle shadow-sm">
+                </a>
+              </div>
+              <div class="card-body">
+                <div class="h4 text-center mb-3">
+                  @UserName
+                </div>
+                <div class="h7 text-bold pb-1">
+                  <b>Nome</b> Miracles Lee Cross
+                </div>
+                <div class="h7">
+                  Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur.
+                </div>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="row g-3">
+                    <div class="col-6 text-center border-right">
+                      <div class="h5">1234</div>
+                      <div class="h6 text-muted">Eventos Ministrados</div>
+                    </div>
+                    <div class="col-6 text-center">
+                      <div class="h5">1234</div>
+                      <div class="h6 text-muted">Eventos Ministrados</div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="card-footer"></div>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="row g-3">
+              <div class="col-12">
+                <h4 class="border-bottom">Detalhe Perfil</h4>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Título</label>
+                <select class="form-select">
+                  <option value="0">Não Quero</option>
+                  <option value="2">Tecnólogo(a)</option>
+                  <option value="3">Bacharel</option>
+                  <option value="4">Especialista</option>
+                  <option value="5">Pós Graduado</option>
+                  <option value="6">Mestre</option>
+                  <option value="7">Doutor(a)</option>
+                </select>
+              </div>
+              <div class="col-md-5">
+                <label class="form-label">Primeiro Nome</label>
+                <input type="text" class="form-control">
+              </div>
+              <div class="col-md-5">
+                <label class="form-label">Ultimo Nome</label>
+                <input type="text" class="form-control">
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                <div class="invalid-feedback">
+                  Please enter a valid email address for shipping updates.
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label"> Telefone</label>
+                <input type="text" class="form-control">
+              </div>
+              <div class="form-group col-md-2">
+                <label class="form-label">Função</label>
+                <select class="form-select">
+                  <option value="" selected></option>
+                  <option value="Participante">Participante</option>
+                  <option value="Participante">Participante</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Descrição</label>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-12">
+                <h4 class="border-bottom">Mudar Senha</h4>
+                <p>Caso mude a senha, preecha os campos abaixo</p>
+              </div>
+              <div class="col-md-6">
+                <label for="address" class="form-label">Senha</label>
+                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="address2" class="form-label">Confirmar Senha <span
+                    class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer d-flex">
+      <button class="btn btn-secondary">Cancelar alteração</button>
+      <span class="mr-auto"></span>
+      <button class="btn btn-success">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Salvar alteração
+      </button>
+    </div>
+  </div>
+</div>

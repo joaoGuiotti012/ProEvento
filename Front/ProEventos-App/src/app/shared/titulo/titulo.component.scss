@@ -1,0 +1,14 @@
+.__actions {
+    margin-left: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.__descriptions {
+    display: inline-flex;
+    .icon-header {
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 48px;
+    }
+}

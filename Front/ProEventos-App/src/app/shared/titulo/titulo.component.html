@@ -1,0 +1,14 @@
+<div class="d-flex p-3 my-3 text-white bg-secondary rounded shadow-sm">
+    <div class="__descriptions">
+        <i class="icon-header {{iconClass}}"></i>
+        <div class="lh-1">
+            <h2 class="mb-0"> {{title}}</h2>
+            <small>{{subTitle}}</small>
+        </div>
+    </div>
+    <div class="__actions" *ngIf="showButton">
+        <button class="btn btn-outline-light" (click)="listar()">
+            Listar
+        </button>
+    </div>
+</div>

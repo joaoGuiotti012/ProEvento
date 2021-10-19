@@ -17,11 +17,24 @@ import { InfraModule } from '../_infra/infra.module';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule } from "ngx-currency";
+import { DateTimeFormatPipe } from 'src/app/pipes/DateTimeFormat.pipe';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ListaComponent } from './lista/lista.component';
 
 const routes: Routes = [
   {
     path: '',
     component: EventosComponent,
+    children: [
+      {
+        path: 'listar',
+        component: ListaComponent
+      },
+      {
+        path: ':id/detalhado',
+        component: DetalheComponent,
+      },
+    ]
   },
   {
     path: ':modal',
@@ -29,10 +42,6 @@ const routes: Routes = [
     resolve: {
       evento: EventoResolve
     }
-  },
-  {
-    path: ':id/detalhado',
-    component: DetalheComponent,
   },
 ]
 
@@ -51,15 +60,18 @@ const routes: Routes = [
     PopoverModule.forRoot(),
     NgxMaskModule.forRoot(),
     NgxCurrencyModule,
+    SharedModule
   ],
   declarations: [
-    EventosComponent,
     EventosComponent,
     DetalheComponent,
     ModalEditarComponent,
     ModalNovoComponent,
     ModalExcluirComponent,
+    DateTimeFormatPipe,
+    ListaComponent,
   ],
+  exports: [],
   providers: []
 })
 export class EventosModule { }

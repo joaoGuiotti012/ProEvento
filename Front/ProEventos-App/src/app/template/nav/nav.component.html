@@ -32,7 +32,7 @@
     </div>
     <nav class="d-flex mt-2 mt-md-0 ms-md-auto">
       <ng-container *ngIf="(auth.userLogged | async) || true">
-        <a class="me-3 py-2 text-decoration-none" href="#" [routerLink]="'/evento'"
+        <a class="me-3 py-2 text-decoration-none" href="#" [routerLink]="'/evento/listar'"
           [routerLinkActive]="'active-link'">Eventos</a>
         <a class="me-3 py-2 text-decoration-none" href="#" [routerLink]="'/palestrante'"
           [routerLinkActive]="'active-link'">Palestrantes</a>
@@ -46,7 +46,7 @@
             <i class="fas fa-user-circle"></i> {{ user?.unique_name ?? 'Guiotti' }}
           </p>
           <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="span-animated">
-            <li role="menuitem"><a class="dropdown-item" href="#">Perfil</a></li>
+            <li role="menuitem"><a class="dropdown-item" href="#" [routerLink]="'/perfil'">Perfil</a></li>
             <li role="menuitem"><a class="dropdown-item" href="#" (click)="logout()">Sair</a>
             </li>
           </ul>

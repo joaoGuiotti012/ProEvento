@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -24,6 +24,9 @@ import { RegisterComponent } from './componentes/auth/register/register.componen
 import { NavComponent } from './template/nav/nav.component';
 import { FooterComponent } from './template/footer/footer.component';
 import { TokenApiService } from './interceptors/token-api.service';
+import { NgxSpinner, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { SharedModule } from './shared/shared.module';
+import { PerfilComponent } from './componentes/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +38,8 @@ import { TokenApiService } from './interceptors/token-api.service';
     HomeComponent,
     DashboardComponent,
     ContatosComponent,
-    PalestrantesComponent,
-    SobreComponent
+    SobreComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,
@@ -49,11 +52,14 @@ import { TokenApiService } from './interceptors/token-api.service';
     InfraModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot(environment.TOAST_CONFIG),
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(), 
+    NgxSpinnerModule,
+    SharedModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenApiService, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

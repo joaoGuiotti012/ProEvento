@@ -6,6 +6,8 @@ import { PalestrantesComponent } from './componentes/palestrantes/palestrantes.c
 import { LoginComponent } from './componentes/auth/login/login.component';
 import { RegisterComponent } from './componentes/auth/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
+import { SobreComponent } from './componentes/sobre/sobre.component';
+import { PerfilComponent } from './componentes/perfil/perfil.component';
 
 const routes: Routes = [
   {
@@ -28,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'palestrante',
-    component: PalestrantesComponent,
+    loadChildren: () => import('./componentes/palestrantes/palestrantes.module').then( m => m.PalestrantesModule),
     // canActivate: [AuthGuard]
   },
   {
@@ -38,7 +40,12 @@ const routes: Routes = [
   },
   {
     path: 'sobre',
-    component: ContatosComponent,
+    component: SobreComponent,
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'perfil',
+    component: PerfilComponent,
     // canActivate: [AuthGuard]
   },
   {
