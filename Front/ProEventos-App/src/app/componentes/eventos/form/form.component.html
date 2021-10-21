@@ -1,0 +1,50 @@
+<div class="card rounded shadow-sm">
+  <div class="card-body mt-2">
+    <form>
+      <div class="row g-3">
+
+        <div class="col-12">
+          <div class="row g-3">
+            <!-- <div class="col-12">
+              <h4 class="border-bottom">Detalhe Perfil</h4>
+            </div> -->
+            <div class="col-md-12">
+              <label class="form-label">Tema</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="col-md-8">
+              <label class="form-label">Local</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Data e Hora</label>
+              <input type="datetime" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <label for="Qtd_Pessoas" class="form-label">Qtd Pessoas</label>
+              <input type="text" class="form-control" id="Qtd_Pessoas">
+            </div>
+            <div class="form-group col-md-4">
+              <label class="form-label"> Telefone</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group col-md-5">
+              <label class="form-label"> Email</label>
+              <input type="email" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer d-flex">
+    <button class="btn btn-secondary" [routerLink]="'/evento/listar'">
+      Cancelar alteração
+    </button>
+    <span class="mr-auto"></span>
+    <button class="btn btn-success">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Salvar alteração
+    </button>
+  </div>
+</div>

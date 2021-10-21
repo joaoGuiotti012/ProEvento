@@ -10,6 +10,7 @@ export class TituloComponent implements OnInit {
   @Input() title = 'Bootstrap';
   @Input() subTitle = 'Since 2021';
   @Input() iconClass = 'fa fa-home';
+  @Input() buttonLabel = 'Listar';
   @Input() showButton = true;
 
   @Output('callbackButton') callbackButton = new EventEmitter<any>();

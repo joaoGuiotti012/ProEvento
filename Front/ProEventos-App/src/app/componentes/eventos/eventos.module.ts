@@ -20,12 +20,17 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { DateTimeFormatPipe } from 'src/app/pipes/DateTimeFormat.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ListaComponent } from './lista/lista.component';
+import { FormComponent } from './form/form.component';
 
 const routes: Routes = [
   {
     path: '',
     component: EventosComponent,
     children: [
+      {
+        path: '',
+        component: FormComponent
+      },
       {
         path: 'listar',
         component: ListaComponent
@@ -70,6 +75,7 @@ const routes: Routes = [
     ModalExcluirComponent,
     DateTimeFormatPipe,
     ListaComponent,
+    FormComponent
   ],
   exports: [],
   providers: []
