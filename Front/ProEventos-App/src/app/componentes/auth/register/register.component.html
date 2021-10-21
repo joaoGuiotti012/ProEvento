@@ -41,31 +41,30 @@
               </p>
             </div>
 
-            <div formGroupName="passwords">
-              <div class="col-sm-12">
-                <div class="col-sm-6">
-                  <label for="" class="form-label">Senha:</label>
-                  <input class="form-control" type="password" formControlName="password"
-                    [class.is-invalid]="isInvalidControl('passwords.password')" />
-                  <p class="invalid-feedback" *ngIf="f.get('passwords.password')?.hasError('minlength') &&
-                f.get('passwords.password')?.touched">
-                    Deve conter no mínimo 4 caracters
-                  </p>
-                  <p class="invalid-feedback" *ngIf="control('passwords.password')?.hasError('required')">
-                    Campo obrigátorio
-                  </p>
-                </div>
+            <div class="col-sm-12">
+              <div class="col-sm-6">
+                <label for="" class="form-label">Senha:</label>
+                <input class="form-control" type="password" formControlName="password"
+                  [class.is-invalid]="isInvalidControl('password')" />
+                <p class="invalid-feedback" *ngIf="f.get('password')?.hasError('minlength') &&
+                f.get('password')?.touched">
+                  Deve conter no mínimo 4 caracters
+                </p>
+                <p class="invalid-feedback" *ngIf="control('password')?.hasError('required')">
+                  Campo obrigátorio
+                </p>
               </div>
 
               <div class="col-sm-12">
                 <div class="col-sm-6">
                   <label for="" class="form-label">Confirmar Senha:</label>
                   <input class="form-control" type="password" formControlName="confirmPassword"
-                    placeholder="Confirme a Senha" [class.is-invalid]="isInvalidControl('passwords.confirmPassword')" />
-                  <div class="invalid-feedback" *ngIf="f.get('passwords.confirmPassword')?.hasError('required')">
+                    placeholder="Confirme a Senha" [class.is-invalid]="isInvalidControl('confirmPassword')" />
+                  <p> errors: {{ f.get('confirmPassword')?.errors | json}}</p>
+                  <div class="invalid-feedback" *ngIf="f.get('confirmPassword')?.hasError('required')">
                     Confirme a Senha
                   </div>
-                  <div class="invalid-feedback" *ngIf="f.get('passwords.confirmPassword')?.hasError('mismatch')">
+                  <div class="invalid-feedback" *ngIf="f.get('confirmPassword')?.errors?.mustMatch">
                     Confirmação não confere
                   </div>
                 </div>

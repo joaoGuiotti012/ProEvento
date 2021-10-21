@@ -10,15 +10,15 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { EventoResolve } from 'src/app/resolvers/evento.resolver';
+import { EventoResolve } from '@app/resolvers/evento.resolver';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { DetalheComponent } from './detalhe/detalhe.component';
 import { InfraModule } from '../_infra/infra.module';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxCurrencyModule } from "ngx-currency";
-import { DateTimeFormatPipe } from 'src/app/pipes/DateTimeFormat.pipe';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { DateTimeFormatPipe } from '@app/pipes/DateTimeFormat.pipe';
+import { SharedModule } from '@app/shared/shared.module';
 import { ListaComponent } from './lista/lista.component';
 import { FormComponent } from './form/form.component';
 
@@ -53,8 +53,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     InfraModule,
     TabsModule.forRoot(),
     RouterModule.forChild(routes),

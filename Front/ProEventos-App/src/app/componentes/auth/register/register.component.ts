@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/User';
 import { AuthService } from 'src/app/services/auth.service';
+import { MustMatchValidator } from '../MustMatch.validator';
 
 @Component({
   selector: 'app-register',
@@ -26,15 +27,16 @@ export class RegisterComponent implements OnInit {
   }
 
   validation() {
+    const formOptions: AbstractControlOptions = {
+      validators: MustMatchValidator.MustMatch('password', 'confirmPassword')
+    }
     this.registerForm = this._fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       userName: ['', [Validators.required, Validators.minLength(3)]],
-      passwords: this._fb.group({
-        password: ['', [Validators.required, Validators.minLength(4)]],
-        confirmPassword: ['', [Validators.required]]
-      }, { validator: this.comparaSenhas })
-    });
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      confirmPassword: ['', [Validators.required]]
+    }, formOptions );
   }
 
   comparaSenhas(fb: any) {

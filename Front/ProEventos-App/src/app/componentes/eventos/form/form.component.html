@@ -1,6 +1,6 @@
 <div class="card rounded shadow-sm">
   <div class="card-body mt-2">
-    <form>
+    <form [formGroup]="form">
       <div class="row g-3">
 
         <div class="col-12">
@@ -9,28 +9,69 @@
               <h4 class="border-bottom">Detalhe Perfil</h4>
             </div> -->
             <div class="col-md-12">
-              <label class="form-label">Tema</label>
-              <input type="text" class="form-control">
+              <label class="form-label">Tema
+                <span class="text-muted text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" [class.is-invalid]="_f.tema.errors && _f.tema.touched "
+                formControlName="tema">
+              <div class="invalid-feedback">
+                <span *ngIf="_f.tema?.errors?.required">Tema é obrigatório!</span>
+                <span *ngIf="_f.tema?.errors?.minlength">Tema deve conter no minimo 4 caracteres!</span>
+              </div>
+
             </div>
             <div class="col-md-8">
-              <label class="form-label">Local</label>
-              <input type="text" class="form-control">
+              <label class="form-label">Local
+                <span class="text-muted text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" [class.is-invalid]="_f.local?.errors && _f.local?.touched "
+                formControlName="local">
+              <div class="invalid-feedback">
+                <span *ngIf="_f.local?.errors?.required">Local é obrigatório!</span>
+              </div>
             </div>
             <div class="col-md-4">
-              <label class="form-label">Data e Hora</label>
-              <input type="datetime" class="form-control">
+              <label class="form-label">Data e Hora
+                <span class="text-muted text-danger">*</span>
+              </label>
+              <input type="datetime" class="form-control"
+                [class.is-invalid]="_f.dataEvento?.errors && _f.dataEvento?.touched " formControlName="dataEvento">
+              <div class="invalid-feedback">
+                <span *ngIf="_f.dataEvento?.errors?.required">Data e Hora é obrigatório!</span>
+              </div>
             </div>
             <div class="col-md-3">
-              <label for="Qtd_Pessoas" class="form-label">Qtd Pessoas</label>
-              <input type="text" class="form-control" id="Qtd_Pessoas">
+              <label for="Qtd_Pessoas" class="form-label">Qtd Pessoas
+                <span class="text-muted text-danger">*</span>
+              </label>
+              <input type="text" class="form-control"
+                [class.is-invalid]="_f.qtdPessoas?.errors && _f.qtdPessoas?.touched " id="Qtd_Pessoas"
+                formControlName="qtdPessoas">
+              <div class="invalid-feedback">
+                <span *ngIf="_f.qtdPessoas?.errors?.required">Qtd Pessoas é obrigatório!</span>
+                <span *ngIf="_f.qtdPessoas?.errors?.max">Quantidade máxima de pessoas é 120000!</span>
+              </div>
             </div>
             <div class="form-group col-md-4">
-              <label class="form-label"> Telefone</label>
-              <input type="text" class="form-control">
+              <label class="form-label"> Telefone
+                <span class="text-muted text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" [class.is-invalid]="_f.telefone?.errors && _f.telefone?.touched "
+                formControlName="telefone">
+              <div class="invalid-feedback">
+                <span *ngIf="_f.telefone?.errors?.required">Telefone é obrigatório!</span>
+              </div>
             </div>
             <div class="form-group col-md-5">
-              <label class="form-label"> Email</label>
-              <input type="email" class="form-control">
+              <label class="form-label"> Email
+                <span class="text-muted text-danger">*</span>
+              </label>
+              <input type="email" class="form-control" [class.is-invalid]="_f.email?.errors && _f.email?.touched "
+                formControlName="email">
+              <div class="invalid-feedback">
+                <span *ngIf="_f.email?.errors?.required">Email é obrigatório!</span>
+                <span *ngIf="_f.email?.errors?.email">Insira um email valido!</span>
+              </div>
             </div>
           </div>
         </div>
@@ -42,8 +83,12 @@
       Cancelar alteração
     </button>
     <span class="mr-auto"></span>
-    <button class="btn btn-success">
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <button class="btn btn-success" 
+      [disabled]="form.invalid"
+      (click)="submitForm(form.value)"
+    >
+      <span *ngIf="(loadingSubmit$ | async)" class="spinner-border spinner-border-sm" role="status"
+        aria-hidden="true"></span>
       Salvar alteração
     </button>
   </div>
