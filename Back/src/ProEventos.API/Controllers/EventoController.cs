@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProEventos.Application;
 using ProEventos.Application.Contratos;
+using ProEventos.Application.Dtos;
 using ProEventos.Domain;
 using ProEventos.Persistence;
 
@@ -29,6 +30,7 @@ namespace ProEventos.API.Controllers
             {
                 var eventos = await _service.GetAllEventosAsync(true);
                 return Ok(eventos);
+                
             }
             catch (Exception ex)
             {
@@ -51,7 +53,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Evento model)
+        public async Task<IActionResult> Put(int id, EventoDto model)
         {
             try
             {
@@ -65,7 +67,7 @@ namespace ProEventos.API.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post(Evento model)
+        public async Task<IActionResult> Post(EventoDto model)
         {
             try
             {

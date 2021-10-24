@@ -1,7 +1,6 @@
-<app-nav></app-nav>
 <div class="container-register ">
   <div class="row container">
-    <div class="col-sm-12 col-md-5 text-center p-sm-5">
+    <div class="col-sm-12 col-md-5 text-center">
       <h2 class="mb-3 ">Cadastro Usuário </h2>
       <img class="d-block mx-auto mb-4" src="assets/img/registerImage.png" alt="" width="400px">
       <!-- <svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" class="me-2 text-indigo" viewBox="0 0 118 94"
@@ -30,6 +29,10 @@
               <label for="" class="form-label">Usuario:</label>
               <input class="form-control" type="text" formControlName="userName" placeholder="Insira o nome de Usuário"
                 [class.is-invalid]="isInvalidControl('userName')" />
+                <span class="invalid-feedback">
+                  <p *ngIf="control('userName')?.errors?.required">Campo obrigaório!</p>
+                  <p *ngIf="control('userName')?.errors?.minlength">Minimo de 4 carcteres</p>
+                </span>
             </div>
 
             <div class="col-12">
@@ -60,7 +63,6 @@
                   <label for="" class="form-label">Confirmar Senha:</label>
                   <input class="form-control" type="password" formControlName="confirmPassword"
                     placeholder="Confirme a Senha" [class.is-invalid]="isInvalidControl('confirmPassword')" />
-                  <p> errors: {{ f.get('confirmPassword')?.errors | json}}</p>
                   <div class="invalid-feedback" *ngIf="f.get('confirmPassword')?.hasError('required')">
                     Confirme a Senha
                   </div>
