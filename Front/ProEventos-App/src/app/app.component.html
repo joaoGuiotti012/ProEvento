@@ -1,4 +1,5 @@
-<app-nav (trocarTema)="trocarTema($event)"></app-nav>
+<app-nav (trocarTema)="trocarTema($event)" [hidden]="notLogged | async"></app-nav>
+
 
 <router-outlet></router-outlet>
 

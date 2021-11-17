@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: 'inicio',
     component: HomeComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   }, 
   {
     path: 'login',
@@ -26,27 +26,27 @@ const routes: Routes = [
   {
     path: 'evento',
     loadChildren: () => import('./componentes/eventos/eventos.module').then(m => m.EventosModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'palestrante',
     loadChildren: () => import('./componentes/palestrantes/palestrantes.module').then( m => m.PalestrantesModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'contato',
     component: ContatosComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'sobre',
     component: SobreComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'perfil',
     component: PerfilComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: '',

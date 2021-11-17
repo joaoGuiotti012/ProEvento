@@ -82,9 +82,8 @@ export class ListaComponent implements OnInit {
         },
         err => {
           this.toast.error('Erro ao tentar carregar os eventos', 'ERRO');
-        },
-        () => this.sppiner.hide()
-      );
+        }
+      ).add(() => this.sppiner.hide());
   }
 
   alternarImagem() {

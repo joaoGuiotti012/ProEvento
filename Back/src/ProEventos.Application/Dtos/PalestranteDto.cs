@@ -18,5 +18,9 @@ namespace ProEventos.Application.Dtos
 
         public IEnumerable<RedeSocialDto> RedesSociais { get; set; }
 
+        public List<EventoDto> Eventos { get; set; }
+        
+        
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ProEventos.Application.Contratos;
@@ -20,18 +22,12 @@ namespace ProEventos.Application
             _eventoPersist = eventoPersist;
             _mapper = mapper;
         }
-        public async Task<EventoDto> Add(EventoDto model)
+        public async Task<bool> Add(EventoDto model)
         {
             try
             {
-                _geralPersist.Add<EventoDto>(model);
-                if (await _geralPersist.SaveChangesAsync())
-                {
-                    return _mapper.Map<EventoDto>(
-                        await _eventoPersist.GetAllEventosByIdAsync(model.Id, false)
-                    );
-                }
-                return null;
+                _geralPersist.Add<Evento>(_mapper.Map<Evento>(model));
+                return await _geralPersist.SaveChangesAsync();
             }
             catch (System.Exception ex)
             {
@@ -46,6 +42,26 @@ namespace ProEventos.Application
                 var evento = await _eventoPersist.GetAllEventosByIdAsync(eventoId, false);
 
                 if (evento == null) return null;
+
+                var idLotes = new List<int>();
+                var idRedeSociais = new List<int>();
+
+                model.Lotes.ForEach(item => idLotes.Add(item.Id));
+                model.RedesSociais.ForEach(item => idRedeSociais.Add(item.Id));
+
+                var lotes = evento.Lotes.Where(
+                    lote => !idLotes.Contains(lote.Id)
+                ).ToArray();
+
+                var redeSociais = evento.RedesSociais.Where(
+                    rede => !idRedeSociais.Contains(rede.Id)
+                ).ToArray();
+
+                if (lotes.Length > 0)
+                    _geralPersist.DeleteRange(lotes);
+
+                if (redeSociais.Length > 0)
+                    _geralPersist.DeleteRange(redeSociais);
 
                 _mapper.Map(model, evento);
 

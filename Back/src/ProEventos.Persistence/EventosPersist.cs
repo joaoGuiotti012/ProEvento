@@ -54,7 +54,7 @@ namespace ProEventos.Persistence
                 .OrderBy(e => e.Id)
                 .Where(e => e.Id == EventoId);
 
-            return await query.SingleOrDefaultAsync();
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)

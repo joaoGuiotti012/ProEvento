@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace ProEventos.API.Controllers
             {
                 var eventos = await _service.GetAllEventosAsync(true);
                 return Ok(eventos);
-                
+
             }
             catch (Exception ex)
             {
@@ -65,14 +66,42 @@ namespace ProEventos.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Banco falhou {ex.Message}");
             }
         }
-        
+
+        [HttpPost("upload/{fileName}")]
+        public async Task<IActionResult> Upload(String FileName)
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "Img");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if (file.Length > 0)
+                {
+                    var fullPath = Path.Combine(pathToSave, FileName.Trim());
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar realizar upload {ex}");
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Post(EventoDto model)
         {
             try
             {
-                var evento = await _service.Add(model);
-                return evento == null ? BadRequest("Erro ao tentar adicionar evento!") : Ok(evento);
+                return await _service.Add(model)
+                    ? Created($"/Evento/{model.Id}", model)
+                    : BadRequest("Erro ao tentar adicionar evento!");
             }
             catch (Exception ex)
             {

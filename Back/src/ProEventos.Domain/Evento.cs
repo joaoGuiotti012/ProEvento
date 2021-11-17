@@ -21,9 +21,9 @@ namespace ProEventos.Domain
 
         public string Email { get; set; }
 
-        public IEnumerable<Lote> Lotes { get; set; }
-        public IEnumerable<RedeSocial> RedesSociais { get; set; }
-        public IEnumerable<PalestranteEvento> PalestrantesEventos { get; set; }
+        public List<Lote> Lotes { get; set; }
+        public List<RedeSocial> RedesSociais { get; set; }
+        public List<PalestranteEvento> PalestrantesEventos { get; set; }
         
     }
 }

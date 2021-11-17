@@ -21,8 +21,9 @@ namespace ProEventos.Application.Dtos
 
         public string Email { get; set; }
 
-        public IEnumerable<LoteDto> Lotes { get; set; }
-        public IEnumerable<RedeSocialDto> RedesSociais { get; set; }
+        public List<LoteDto> Lotes { get; set; }
+        public List<RedeSocialDto> RedesSociais { get; set; }
+        public List<PalestranteDto> Palestrantes { get; set; }
 
     }
 }

@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System.Text.Json;
 using ProEventos.Persistence;
@@ -18,6 +12,17 @@ using ProEventos.Persistence.Contexto;
 using ProEventos.Application.Contratos;
 using ProEventos.Application;
 using ProEventos.Persistence.Contratos;
+using Microsoft.AspNetCore.Identity;
+using ProEventos.API.identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using AutoMapper;
 
 namespace ProEventos.API
 {
@@ -39,25 +44,64 @@ namespace ProEventos.API
                 context => context.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection))
             );
 
-            services.AddControllers()
-                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
-                   Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                );
+            IdentityBuilder builder = services.AddIdentityCore<User>(op =>
+           {
+               op.Password.RequireDigit = false;
+               op.Password.RequireNonAlphanumeric = false;
+               op.Password.RequireLowercase = false;
+               op.Password.RequireUppercase = false;
+               op.Password.RequiredLength = 4;
+           });
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<ProEventosContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(op =>
+               {
+                   op.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                   {
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                           .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                       ValidateIssuer = false,
+                       ValidateAudience = false
+                   };
+               });
+
+            services.AddMvc(op =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                op.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddJsonOptions(
+                op => op.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            )
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             services.AddScoped<IEventoService, EventoService>();
-            services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IEventosPersist, EventosPersist>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IPalestrantePersist, PalestrantePersist>();
 
+            services.AddAutoMapper();
 
-            services.AddMvc()
-                .AddJsonOptions(
-                    op => op.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                );
+            services.AddControllers()
+                           .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
+                              Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                           );
 
-            services.AddCors();
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            }));
 
             services.AddSwaggerGen(c =>
             {
@@ -75,15 +119,27 @@ namespace ProEventos.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProEventos.API v1"));
             }
 
+            app.UseAuthentication();
+
+            app.UseCors("MyPolicy");
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+                RequestPath = new PathString("/wwwroot")
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseCors(x => x.AllowAnyHeader().
-                               AllowAnyMethod().
-                               AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {
