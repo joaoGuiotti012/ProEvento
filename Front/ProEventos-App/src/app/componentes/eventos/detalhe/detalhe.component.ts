@@ -228,7 +228,6 @@ export class DetalheComponent implements OnInit {
         },
         err => {
           this.toast.error('ERRO', JSON.stringify(err));
-          console.error(JSON.stringify(err));
         }
       )
   }

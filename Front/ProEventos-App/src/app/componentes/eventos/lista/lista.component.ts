@@ -140,7 +140,11 @@ export class ListaComponent implements OnInit {
                   this.toast.success('Novo Evento foi inserido na agenda!', 'Sucesso');
                 },
                 err => {
-                  console.error(err);
+                  let errors = err.error.errors;
+                  Object.keys(errors).forEach((key) => {
+                    let error = errors[key];
+                    this.toast.error(error, "ERROR");
+                  });
                 }
               );
           }

@@ -11,6 +11,5 @@ namespace ProEventos.API.identity
 
         public List<UserRole> UserRoles { get; set; }
         
-        
     }
 }
